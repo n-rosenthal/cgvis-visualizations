@@ -1,0 +1,263 @@
+[
+    {
+        "label": "numpy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "pandas",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pandas",
+        "description": "pandas",
+        "detail": "pandas",
+        "documentation": {}
+    },
+    {
+        "label": "altair",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "altair",
+        "description": "altair",
+        "detail": "altair",
+        "documentation": {}
+    },
+    {
+        "label": "chardet",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "chardet",
+        "description": "chardet",
+        "detail": "chardet",
+        "documentation": {}
+    },
+    {
+        "label": "calendar",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "calendar",
+        "description": "calendar",
+        "detail": "calendar",
+        "documentation": {}
+    },
+    {
+        "label": "clean_currency",
+        "kind": 2,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "def clean_currency(col):\n    # Se a coluna já for numérica, retorna sem alteração\n    if pd.api.types.is_numeric_dtype(col):\n        return col\n    # Converte para string e remove espaços\n    col = col.astype(str).str.strip()\n    # Remove qualquer caractere que não seja dígito, vírgula ou ponto\n    col = col.str.replace(r'[^\\d,.]', '', regex=True)\n    # Substitui vírgula (separador decimal) por ponto\n    col = col.str.replace(',', '.', regex=False)",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df = pd.read_csv(r\"data/arrecadacao-estado.csv\", encoding=encoding, sep=\";\")\n#   2.  Pré-processamento: limpeza dos dados\n#   Converte as strings que representam R$ para float\ncols_to_clean       = [c for c in df.columns if c not in ['Ano', 'Mês', 'UF']];\ndf[cols_to_clean]   = df[cols_to_clean].apply(clean_currency);\n#   3.  Pré-processamento: geração de novas features\n#   criar associações mês -> número, número -> mês\nmeses_pt = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',\n            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']\nmonth_to_number = {mes: str(i+1).zfill(2) for i, mes in enumerate(meses_pt)}",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "meses_pt",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "meses_pt = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',\n            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']\nmonth_to_number = {mes: str(i+1).zfill(2) for i, mes in enumerate(meses_pt)}\n#   criação de novas colunas\ndf['Mês_Num'] = df['Mês'].map(month_to_number)  # cria coluna '01' a '12'\ndf['Data'] = pd.to_datetime(df['Ano'].astype(str) + '-' + df['Mês_Num'] + '-01')\n#   4.  Pré-processamento: adequação ao formato esperado por biblioteca\n#   transformação para formato long (melt) necessário ao Altair\n#       colunas identificadoras\nid_vars = ['Ano', 'Mês', 'UF', 'Mês_Num', 'Data']",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "month_to_number",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "month_to_number = {mes: str(i+1).zfill(2) for i, mes in enumerate(meses_pt)}\n#   criação de novas colunas\ndf['Mês_Num'] = df['Mês'].map(month_to_number)  # cria coluna '01' a '12'\ndf['Data'] = pd.to_datetime(df['Ano'].astype(str) + '-' + df['Mês_Num'] + '-01')\n#   4.  Pré-processamento: adequação ao formato esperado por biblioteca\n#   transformação para formato long (melt) necessário ao Altair\n#       colunas identificadoras\nid_vars = ['Ano', 'Mês', 'UF', 'Mês_Num', 'Data']\n#       colunas valor\nvalue_vars = [c for c in df.columns if c not in id_vars]",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df['Mês_Num']",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df['Mês_Num'] = df['Mês'].map(month_to_number)  # cria coluna '01' a '12'\ndf['Data'] = pd.to_datetime(df['Ano'].astype(str) + '-' + df['Mês_Num'] + '-01')\n#   4.  Pré-processamento: adequação ao formato esperado por biblioteca\n#   transformação para formato long (melt) necessário ao Altair\n#       colunas identificadoras\nid_vars = ['Ano', 'Mês', 'UF', 'Mês_Num', 'Data']\n#       colunas valor\nvalue_vars = [c for c in df.columns if c not in id_vars]\n#       -> melt\ndf_melt = df.melt(id_vars=id_vars, value_vars=value_vars, var_name='Imposto', value_name='Valor')",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df['Data']",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df['Data'] = pd.to_datetime(df['Ano'].astype(str) + '-' + df['Mês_Num'] + '-01')\n#   4.  Pré-processamento: adequação ao formato esperado por biblioteca\n#   transformação para formato long (melt) necessário ao Altair\n#       colunas identificadoras\nid_vars = ['Ano', 'Mês', 'UF', 'Mês_Num', 'Data']\n#       colunas valor\nvalue_vars = [c for c in df.columns if c not in id_vars]\n#       -> melt\ndf_melt = df.melt(id_vars=id_vars, value_vars=value_vars, var_name='Imposto', value_name='Valor')\ndf_melt = df_melt.dropna(subset=['Valor']).query('Valor > 0')  # Remove zeros/NaNs",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "id_vars",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "id_vars = ['Ano', 'Mês', 'UF', 'Mês_Num', 'Data']\n#       colunas valor\nvalue_vars = [c for c in df.columns if c not in id_vars]\n#       -> melt\ndf_melt = df.melt(id_vars=id_vars, value_vars=value_vars, var_name='Imposto', value_name='Valor')\ndf_melt = df_melt.dropna(subset=['Valor']).query('Valor > 0')  # Remove zeros/NaNs\nprint(df_melt.shape)\n#   5.  Visualização:   Série Temporal\n#       Evolução da Arrecadação Total\n# Agregar por Data (soma de todos os estados e impostos)",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "value_vars",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "value_vars = [c for c in df.columns if c not in id_vars]\n#       -> melt\ndf_melt = df.melt(id_vars=id_vars, value_vars=value_vars, var_name='Imposto', value_name='Valor')\ndf_melt = df_melt.dropna(subset=['Valor']).query('Valor > 0')  # Remove zeros/NaNs\nprint(df_melt.shape)\n#   5.  Visualização:   Série Temporal\n#       Evolução da Arrecadação Total\n# Agregar por Data (soma de todos os estados e impostos)\ntrend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Agregar por Data (soma de todos os estados e impostos)",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df_melt",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df_melt = df.melt(id_vars=id_vars, value_vars=value_vars, var_name='Imposto', value_name='Valor')\ndf_melt = df_melt.dropna(subset=['Valor']).query('Valor > 0')  # Remove zeros/NaNs\nprint(df_melt.shape)\n#   5.  Visualização:   Série Temporal\n#       Evolução da Arrecadação Total\n# Agregar por Data (soma de todos os estados e impostos)\ntrend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Agregar por Data (soma de todos os estados e impostos)\ntrend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Calcular as métricas no pandas",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df_melt",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df_melt = df_melt.dropna(subset=['Valor']).query('Valor > 0')  # Remove zeros/NaNs\nprint(df_melt.shape)\n#   5.  Visualização:   Série Temporal\n#       Evolução da Arrecadação Total\n# Agregar por Data (soma de todos os estados e impostos)\ntrend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Agregar por Data (soma de todos os estados e impostos)\ntrend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Calcular as métricas no pandas\ntrend['MA_12'] = trend['Valor'].rolling(12, min_periods=1).mean()",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "trend",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "trend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Agregar por Data (soma de todos os estados e impostos)\ntrend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Calcular as métricas no pandas\ntrend['MA_12'] = trend['Valor'].rolling(12, min_periods=1).mean()\ntrend['Min_12'] = trend['Valor'].rolling(12, min_periods=1).min()\ntrend['Max_12'] = trend['Valor'].rolling(12, min_periods=1).max()\n# Regressão via Altair (usando transform_regression)\nreg = alt.Chart(trend).transform_regression('Data', 'Valor', method='linear').mark_line(color='orange', strokeWidth=2)\n# Base com a série original (opcional, pode ocultar)",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "trend",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "trend = df_melt.groupby('Data')['Valor'].sum().reset_index()\n# Calcular as métricas no pandas\ntrend['MA_12'] = trend['Valor'].rolling(12, min_periods=1).mean()\ntrend['Min_12'] = trend['Valor'].rolling(12, min_periods=1).min()\ntrend['Max_12'] = trend['Valor'].rolling(12, min_periods=1).max()\n# Regressão via Altair (usando transform_regression)\nreg = alt.Chart(trend).transform_regression('Data', 'Valor', method='linear').mark_line(color='orange', strokeWidth=2)\n# Base com a série original (opcional, pode ocultar)\norig = alt.Chart(trend).mark_line(color='lightgray', opacity=0.3).encode(x='Data:T', y='Valor:Q')\n# Banda e média móvel",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "trend['MA_12']",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "trend['MA_12'] = trend['Valor'].rolling(12, min_periods=1).mean()\ntrend['Min_12'] = trend['Valor'].rolling(12, min_periods=1).min()\ntrend['Max_12'] = trend['Valor'].rolling(12, min_periods=1).max()\n# Regressão via Altair (usando transform_regression)\nreg = alt.Chart(trend).transform_regression('Data', 'Valor', method='linear').mark_line(color='orange', strokeWidth=2)\n# Base com a série original (opcional, pode ocultar)\norig = alt.Chart(trend).mark_line(color='lightgray', opacity=0.3).encode(x='Data:T', y='Valor:Q')\n# Banda e média móvel\nband = alt.Chart(trend).mark_area(opacity=0.15, color='steelblue').encode(\n    x='Data:T',",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "trend['Min_12']",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "trend['Min_12'] = trend['Valor'].rolling(12, min_periods=1).min()\ntrend['Max_12'] = trend['Valor'].rolling(12, min_periods=1).max()\n# Regressão via Altair (usando transform_regression)\nreg = alt.Chart(trend).transform_regression('Data', 'Valor', method='linear').mark_line(color='orange', strokeWidth=2)\n# Base com a série original (opcional, pode ocultar)\norig = alt.Chart(trend).mark_line(color='lightgray', opacity=0.3).encode(x='Data:T', y='Valor:Q')\n# Banda e média móvel\nband = alt.Chart(trend).mark_area(opacity=0.15, color='steelblue').encode(\n    x='Data:T',\n    y='Min_12:Q',",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "trend['Max_12']",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "trend['Max_12'] = trend['Valor'].rolling(12, min_periods=1).max()\n# Regressão via Altair (usando transform_regression)\nreg = alt.Chart(trend).transform_regression('Data', 'Valor', method='linear').mark_line(color='orange', strokeWidth=2)\n# Base com a série original (opcional, pode ocultar)\norig = alt.Chart(trend).mark_line(color='lightgray', opacity=0.3).encode(x='Data:T', y='Valor:Q')\n# Banda e média móvel\nband = alt.Chart(trend).mark_area(opacity=0.15, color='steelblue').encode(\n    x='Data:T',\n    y='Min_12:Q',\n    y2='Max_12:Q'",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "reg",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "reg = alt.Chart(trend).transform_regression('Data', 'Valor', method='linear').mark_line(color='orange', strokeWidth=2)\n# Base com a série original (opcional, pode ocultar)\norig = alt.Chart(trend).mark_line(color='lightgray', opacity=0.3).encode(x='Data:T', y='Valor:Q')\n# Banda e média móvel\nband = alt.Chart(trend).mark_area(opacity=0.15, color='steelblue').encode(\n    x='Data:T',\n    y='Min_12:Q',\n    y2='Max_12:Q'\n)\nma = alt.Chart(trend).mark_line(color='steelblue', strokeWidth=2).encode(x='Data:T', y='MA_12:Q')",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "orig",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "orig = alt.Chart(trend).mark_line(color='lightgray', opacity=0.3).encode(x='Data:T', y='Valor:Q')\n# Banda e média móvel\nband = alt.Chart(trend).mark_area(opacity=0.15, color='steelblue').encode(\n    x='Data:T',\n    y='Min_12:Q',\n    y2='Max_12:Q'\n)\nma = alt.Chart(trend).mark_line(color='steelblue', strokeWidth=2).encode(x='Data:T', y='MA_12:Q')\n# Montagem\n(band + ma + reg + orig).properties(",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "band",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "band = alt.Chart(trend).mark_area(opacity=0.15, color='steelblue').encode(\n    x='Data:T',\n    y='Min_12:Q',\n    y2='Max_12:Q'\n)\nma = alt.Chart(trend).mark_line(color='steelblue', strokeWidth=2).encode(x='Data:T', y='MA_12:Q')\n# Montagem\n(band + ma + reg + orig).properties(\n    title='?',\n    width=700,",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "ma",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "ma = alt.Chart(trend).mark_line(color='steelblue', strokeWidth=2).encode(x='Data:T', y='MA_12:Q')\n# Montagem\n(band + ma + reg + orig).properties(\n    title='?',\n    width=700,\n    height=400\n).interactive()\n#   Stacked Area\n#   Participação de cada tributo ao longo do tempo\n# Selecionar apenas os maiores impostos para não poluir",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "top_impostos",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "top_impostos = ['IRPF', 'IRPJ - DEMAIS EMPRESAS', 'COFINS - DEMAIS', \n                'CONTRIBUIÇÃO PARA O PIS/PASEP - DEMAIS', 'CSLL - DEMAIS',\n                'IPI - AUTOMÓVEIS', 'IMPOSTO SOBRE IMPORTAÇÃO']\ndf_plot = df_melt[df_melt['Imposto'].isin(top_impostos)]\n# Agregar por Data e Imposto (soma nacional)\ndf_agg = df_plot.groupby(['Data', 'Imposto'])['Valor'].sum().reset_index()\n# Gráfico de áreas (stacked normalizado)\narea_chart = alt.Chart(df_agg).mark_area(opacity=0.7).encode(\n    x=alt.X('Data:T', title='Data'),\n    y=alt.Y('Valor:Q', title='Arrecadação (R$)', stack='normalize'),",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df_plot",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df_plot = df_melt[df_melt['Imposto'].isin(top_impostos)]\n# Agregar por Data e Imposto (soma nacional)\ndf_agg = df_plot.groupby(['Data', 'Imposto'])['Valor'].sum().reset_index()\n# Gráfico de áreas (stacked normalizado)\narea_chart = alt.Chart(df_agg).mark_area(opacity=0.7).encode(\n    x=alt.X('Data:T', title='Data'),\n    y=alt.Y('Valor:Q', title='Arrecadação (R$)', stack='normalize'),\n    color=alt.Color('Imposto:N', legend=alt.Legend(columns=2)),\n    tooltip=['Data', 'Imposto', 'Valor']\n).properties(",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "df_agg",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "df_agg = df_plot.groupby(['Data', 'Imposto'])['Valor'].sum().reset_index()\n# Gráfico de áreas (stacked normalizado)\narea_chart = alt.Chart(df_agg).mark_area(opacity=0.7).encode(\n    x=alt.X('Data:T', title='Data'),\n    y=alt.Y('Valor:Q', title='Arrecadação (R$)', stack='normalize'),\n    color=alt.Color('Imposto:N', legend=alt.Legend(columns=2)),\n    tooltip=['Data', 'Imposto', 'Valor']\n).properties(\n    title='Participação relativa dos principais tributos',\n    width=700,",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "area_chart",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "area_chart = alt.Chart(df_agg).mark_area(opacity=0.7).encode(\n    x=alt.X('Data:T', title='Data'),\n    y=alt.Y('Valor:Q', title='Arrecadação (R$)', stack='normalize'),\n    color=alt.Color('Imposto:N', legend=alt.Legend(columns=2)),\n    tooltip=['Data', 'Imposto', 'Valor']\n).properties(\n    title='Participação relativa dos principais tributos',\n    width=700,\n    height=400\n).interactive()",
+        "detail": "visualizations",
+        "documentation": {}
+    },
+    {
+        "label": "linha_2004",
+        "kind": 5,
+        "importPath": "visualizations",
+        "description": "visualizations",
+        "peekOfCode": "linha_2004 = alt.Chart(pd.DataFrame({'Data': ['2004-01-01']})).mark_rule(\n    color='red', \n    strokeWidth=2,\n    strokeDash=[5, 3]  # Linha tracejada para não poluir\n).encode(\n    x='Data:T'\n)\n# Unir os dois gráficos\n(area_chart + linha_2004)",
+        "detail": "visualizations",
+        "documentation": {}
+    }
+]
