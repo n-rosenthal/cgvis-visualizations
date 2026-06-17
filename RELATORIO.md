@@ -13,19 +13,6 @@
 - **Arquivo principal**: <mark>`visualizations.py`</mark>
 
 ## Imagens das visualizações geradas
-
-### Evolução da arrecadação federal
-![Evolução da Arrecadação Federal Total (2000-2024)](visualizations/temporal-series--evolucao-arrecadacao-federal.png)
-
-#### Descrição da visualização
-`Série temporal mostrando a evolução da arrecadação federal total (2000-2024). O eixo vertical representa o valor arrecadado, enquanto o eixo horizontal representa o tempo, em intervalos anuais. Foram calculadas médias móveis mensais para investigar tendências e sazonalidade, assim como a aplicação de um modelo simples de regressão linear para demonstrar o comportamento do crescimento.`
-
-#### Legenda (*caption*)
-`A linha cinza clara representa a série original (mensal). A área azul translúcida delimita o intervalo entre o mínimo e o máximo dos últimos 12 meses, evidenciando a volatilidade cíclica ou sazonalidade. A linha azul escura é a média móvel de 12 meses, que suaviza a série e revela a tendência de médio prazo. Por fim, a reta laranja é a regressão linear de todo o período.`
-
-#### Conclusão demonstrada pela visualização
-`Crescimento da arrecadação federal ao longo do tempo, com forte sazonalidade anual (picos sempre no primeiro trimestre). Observa-se inflexão negativa em 2009, talvez reflexo da Crise de 2008. O período de 2013 até 2015 mostrou elevada recuperação da arrecadação de impostos. Podemos perceber outra grande queda em 2020, possivelmente devido à pandemia de COVID-19. Notamos, por fim, que a partir de abril de 2022, a arrecadação é superior ao modelo de regressão linear que considera todo o período, mostrando uma tendência positiva.`
-
 ### *Temporal Series*:Evolução da Arrecadação Federal
 ![Evolução da Arrecadação Federal Total (2000-2024)](visualizations/temporal-series--evolucao-arrecadacao-federal.png)
 
@@ -39,7 +26,7 @@
 `Crescimento da arrecadação federal ao longo do tempo, com forte sazonalidade anual (picos sempre no primeiro trimestre). Observa-se inflexão negativa em 2009, talvez reflexo da Crise de 2008. O período de 2013 até 2015 mostrou elevada recuperação da arrecadação de impostos. Podemos perceber outra grande queda em 2020, possivelmente devido à pandemia de COVID-19. Notamos, por fim, que a partir de abril de 2022, a arrecadação é superior ao modelo de regressão linear que considera todo o período, mostrando uma tendência positiva.`
 
 ### *Stacked Area*: Partipação Relativa dos Tributos (e o impacto da Lei 10.833/2003)
-![Partipação Relativa dos Tributos (e o impacto da Lei 10.833/2003)](visualizations/bar-chart--particao-relativa-tributos.png)
+![Partipação Relativa dos Tributos (e o impacto da Lei 10.833/2003)](visualizations/stacked-area--participacao-relativa-dos-tributos.png)
 
 #### Descrição da visualização
 `Gráfico de área empilhada normalizada (*stacked area* somando 100%) mostrando a evolução da participação relativa dos principais tributos federais no período de 2000 a 2026. O eixo vertical representa a proporção percentual de cada tributo na arrecadação total, enquanto o eixo horizontal representa o tempo, em intervalos anuais. Cada cor distinta representa um tributo específico, com a paleta Tableau 10 ordenada pela média histórica de arrecadação. Anotação de evento histórico através de linha vertical tracejada vermelha acompanhada de texto marca a entrada em vigor da Lei nº 10.833/2003, que instituiu o regime não cumulativo da COFINS em fevereiro de 2004.`
